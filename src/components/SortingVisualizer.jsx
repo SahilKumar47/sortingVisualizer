@@ -1,6 +1,10 @@
 import React, { Component, Fragment } from "react";
 import NavBar from "./navbar/NavBar";
-import { bubbleSort, insertionSort } from "./utils/sortingAlgorithm";
+import {
+  bubbleSort,
+  insertionSort,
+  selectionSort,
+} from "./utils/sortingAlgorithm";
 
 //MUI stuff
 import Paper from "@material-ui/core/Paper";
@@ -159,7 +163,6 @@ class SortingVisualizer extends Component {
           arrBar[insertedValue[1]].style.backgroundColor = "purple";
           arrBar[insertedValue[0]].style.height = `${insertedValue[2]}px`;
         }
-
         setTimeout(() => {
           if (swapped) {
             arrBar[swapIndex[1]].style.backgroundColor = color;
@@ -176,6 +179,56 @@ class SortingVisualizer extends Component {
     }, animations.length * speed);
   };
 
+  doSelectionSort = () => {
+    const { generatedArr, speed, color } = this.state;
+    const animations = selectionSort(generatedArr);
+    console.log(animations);
+    for (let i = 0; i < animations.length; i++) {
+      const {
+        min,
+        comparisonIndex,
+        updatedMin,
+        swapped,
+        swapIndex,
+        swapValues,
+      } = animations[i];
+      console.log(min);
+
+      setTimeout(() => {
+        const arrBar = document.getElementsByClassName("arrElement");
+        if (min) {
+          arrBar[min].style.backgroundColor = "red";
+          arrBar[comparisonIndex[0]].style.backgroundColor = "purple";
+          arrBar[comparisonIndex[1]].style.backgroundColor = "purple";
+        }
+
+        if (updatedMin) {
+          arrBar[updatedMin].style.backgroundColor = "blue";
+        }
+        if (swapped) {
+          arrBar[swapIndex[0]].style.backgroundColor = "green";
+          arrBar[swapIndex[1]].style.backgroundColor = "green";
+          arrBar[swapIndex[0]].style.height = `${swapValues[0]}px`;
+          arrBar[swapIndex[1]].style.height = `${swapValues[1]}px`;
+        }
+        setTimeout(() => {
+          if (min) {
+            arrBar[min].style.backgroundColor = color;
+            arrBar[comparisonIndex[0]].style.backgroundColor = color;
+            arrBar[comparisonIndex[1]].style.backgroundColor = color;
+          }
+          if (updatedMin) {
+            arrBar[updatedMin].style.backgroundColor = color;
+          }
+          if (swapped) {
+            arrBar[swapIndex[0]].style.backgroundColor = color;
+            arrBar[swapIndex[1]].style.backgroundColor = color;
+          }
+        }, speed / 4);
+      }, i * speed);
+    }
+  };
+
   render() {
     const { classes } = this.props;
     const {
@@ -190,7 +243,6 @@ class SortingVisualizer extends Component {
       openSuccess,
       theme,
     } = this.state;
-    console.log(this.state.color);
     const bacgcolor = !theme ? "#fff" : "rgba(0, 0, 0, 0.54)";
     const toolTipMessage =
       bacgcolor === "#fff" ? "Switch to Dark mode" : "Switch to Light Mode";
@@ -205,6 +257,7 @@ class SortingVisualizer extends Component {
           handleSpeedChange={this.handleSpeedChange}
           doBubbleSort={this.doBubbleSort}
           doInsertionSort={this.doInsertionSort}
+          doSelectionSort={this.doSelectionSort}
           handleColorChange={this.handleColorChange}
         />
         <Paper

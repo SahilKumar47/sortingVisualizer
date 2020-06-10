@@ -48,17 +48,28 @@ export const selectionSort = (arr) => {
   let len = arr.length;
   let animations = [];
   for (let i = 0; i < len; i++) {
+    let animation = {};
     let min = i;
     for (let j = i + 1; j < len; j++) {
+      animation = {};
+      animation.min = min;
+      animation.comparisonIndex = [min, j];
       if (arr[min] > arr[j]) {
         min = j;
+        animation.updatedMin = j;
       }
+      animations.push(animation);
     }
     if (min !== i) {
+      animation = {};
       let tmp = arr[i];
       arr[i] = arr[min];
       arr[min] = tmp;
+      animation.swapped = true;
+      animation.swapIndex = [min, i];
+      animation.swapValues = [arr[min], arr[i]];
     }
+    animations.push(animation);
   }
-  return arr;
+  return animations;
 };
