@@ -206,9 +206,9 @@ export default function NavBar({
           >
             Selection Sort
           </Button>
-          <Button color="inherit" className={classes.button}>
+          {/* <Button color="inherit" className={classes.button}>
             Quick Sort
-          </Button>
+          </Button> */}
         </div>
       </Toolbar>
     </AppBar>
