@@ -69,8 +69,10 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar({
   handleSpeedChange,
   handleSizeChange,
+  handleColorChange,
   size,
   speed,
+  color,
   generateNewArr,
   doBubbleSort,
   doInsertionSort,
@@ -154,6 +156,27 @@ export default function NavBar({
                 <MenuItem value={100}>100s</MenuItem>
                 <MenuItem value={500}>500s</MenuItem>
                 <MenuItem value={1000}>1000s</MenuItem>
+              </Select>
+            </FormControl>
+          </Tooltip>
+        </div>
+
+        <div>
+          <Tooltip placement="top" title="Change Bar Color">
+            <FormControl className={classes.speedMenu}>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={color}
+                onChange={handleColorChange}
+                className={classes.speedInput}
+                variant="outlined"
+              >
+                <MenuItem value="cyan">Cyan</MenuItem>
+                <MenuItem value="#ffea00">Yellow</MenuItem>
+                <MenuItem value="#d500f9">Pink</MenuItem>
+                <MenuItem value="#2a3eb1">Indigo</MenuItem>
+                <MenuItem value="#ff9100">Orange</MenuItem>
               </Select>
             </FormControl>
           </Tooltip>

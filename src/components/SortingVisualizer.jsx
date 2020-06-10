@@ -5,9 +5,10 @@ import { bubbleSort, insertionSort } from "./utils/sortingAlgorithm";
 //MUI stuff
 import Paper from "@material-ui/core/Paper";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Box } from "@material-ui/core";
+import { Box, Tooltip } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import Switch from "@material-ui/core/Switch";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -36,6 +37,11 @@ const styles = {
       marginTop: 2,
     },
   },
+  switch: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+  },
 };
 
 class SortingVisualizer extends Component {
@@ -47,6 +53,8 @@ class SortingVisualizer extends Component {
     horizontal: "center",
     size: 150,
     speed: 0.5,
+    color: "cyan",
+    theme: false,
     width: null,
   };
 
@@ -77,6 +85,14 @@ class SortingVisualizer extends Component {
     this.setState({ speed: event.target.value });
   };
 
+  handleColorChange = (event) => {
+    this.setState({ color: event.target.value });
+  };
+
+  handleThemeChange = (event) => {
+    this.setState({ theme: event.target.checked });
+  };
+
   generateNewArr = () => {
     const generatedArr = [];
     let width;
@@ -96,9 +112,8 @@ class SortingVisualizer extends Component {
   };
 
   doBubbleSort = () => {
-    const { generatedArr, speed } = this.state;
+    const { generatedArr, speed, color } = this.state;
     let ani = bubbleSort(generatedArr);
-    let timeToShowAlert;
     for (let i = 0; i < ani.length; i++) {
       const { swapIndex, values, swapped } = ani[i];
       setTimeout(() => {
@@ -116,8 +131,8 @@ class SortingVisualizer extends Component {
           console.log("running");
         }
         setTimeout(() => {
-          arrBar[swapIndex[1]].style.backgroundColor = "cyan";
-          arrBar[swapIndex[0]].style.backgroundColor = "cyan";
+          arrBar[swapIndex[1]].style.backgroundColor = color;
+          arrBar[swapIndex[0]].style.backgroundColor = color;
         }, speed / 4);
       }, i * speed);
     }
@@ -127,7 +142,7 @@ class SortingVisualizer extends Component {
   };
 
   doInsertionSort = () => {
-    const { generatedArr, speed } = this.state;
+    const { generatedArr, speed, color } = this.state;
     const animations = insertionSort(generatedArr);
     console.log(animations);
     for (let i = 0; i < animations.length; i++) {
@@ -147,15 +162,18 @@ class SortingVisualizer extends Component {
 
         setTimeout(() => {
           if (swapped) {
-            arrBar[swapIndex[1]].style.backgroundColor = "cyan";
-            arrBar[swapIndex[0]].style.backgroundColor = "cyan";
+            arrBar[swapIndex[1]].style.backgroundColor = color;
+            arrBar[swapIndex[0]].style.backgroundColor = color;
           } else {
-            arrBar[insertedValue[0]].style.backgroundColor = "cyan";
-            arrBar[insertedValue[1]].style.backgroundColor = "cyan";
+            arrBar[insertedValue[0]].style.backgroundColor = color;
+            arrBar[insertedValue[1]].style.backgroundColor = color;
           }
         }, speed / 4);
       }, i * speed);
     }
+    setTimeout(() => {
+      this.setState({ openSuccess: true });
+    }, animations.length * speed);
   };
 
   render() {
@@ -168,25 +186,47 @@ class SortingVisualizer extends Component {
       size,
       speed,
       width,
+      color,
       openSuccess,
+      theme,
     } = this.state;
+    console.log(this.state.color);
+    const bacgcolor = !theme ? "#fff" : "rgba(0, 0, 0, 0.54)";
+    const toolTipMessage =
+      bacgcolor === "#fff" ? "Switch to Dark mode" : "Switch to Light Mode";
     return (
       <Fragment>
         <NavBar
           generateNewArr={this.generateNewArr}
           size={size}
           speed={speed}
+          color={color}
           handleSizeChange={this.handleSizeChange}
           handleSpeedChange={this.handleSpeedChange}
           doBubbleSort={this.doBubbleSort}
           doInsertionSort={this.doInsertionSort}
+          handleColorChange={this.handleColorChange}
         />
-        <Paper elevation={3} className={classes.paper}>
+        <Paper
+          elevation={3}
+          className={classes.paper}
+          style={{ backgroundColor: bacgcolor }}
+        >
+          <div className={classes.switch}>
+            <Tooltip placement="bottom" title={toolTipMessage}>
+              <Switch
+                checked={theme}
+                onChange={this.handleThemeChange}
+                name="theme"
+                inputProps={{ "aria-label": "secondary checkbox" }}
+              />
+            </Tooltip>
+          </div>
           <div className={classes.snackBar}>
             <Snackbar
               anchorOrigin={{ vertical, horizontal }}
               open={open}
-              autoHideDuration={1500}
+              autoHideDuration={500}
               onClose={this.handleClose}
             >
               <Alert onClose={this.handleClose} severity="info">
@@ -194,9 +234,8 @@ class SortingVisualizer extends Component {
               </Alert>
             </Snackbar>
             <Snackbar
-              // anchorOrigin={{ vertical, horizontal }}
               open={openSuccess}
-              autoHideDuration={1500}
+              autoHideDuration={500}
               onClose={this.handleClose}
             >
               <Alert onClose={this.handleClose} severity="success">
@@ -211,11 +250,10 @@ class SortingVisualizer extends Component {
                 display="inline-block"
                 width={width}
                 marginX="3px"
-                bgcolor="cyan"
                 key={index}
                 id="arrBox"
                 className="arrElement"
-                style={{ height: `${ele}px` }}
+                style={{ height: `${ele}px`, backgroundColor: `${color}` }}
               ></Box>
             ))}
           </Box>
