@@ -140,7 +140,7 @@ export default function NavBar({
         </div>
 
         <div>
-          <Tooltip placement="top" title="Adjust Sorting Speed">
+          <Tooltip placement="top" title="Adjust per animation Sorting Speed">
             <FormControl className={classes.speedMenu}>
               <Select
                 labelId="demo-simple-select-label"
@@ -150,13 +150,13 @@ export default function NavBar({
                 className={classes.speedInput}
                 variant="outlined"
               >
-                <MenuItem value={0.5}>0.5s</MenuItem>
-                <MenuItem value={1}>1s</MenuItem>
-                <MenuItem value={5}>5s</MenuItem>
-                <MenuItem value={10}>10s</MenuItem>
-                <MenuItem value={50}>50s</MenuItem>
-                <MenuItem value={100}>100s</MenuItem>
-                <MenuItem value={500}>500s</MenuItem>
+                <MenuItem value={0.5}>0.5ms</MenuItem>
+                <MenuItem value={1}>1ms</MenuItem>
+                <MenuItem value={5}>5ms</MenuItem>
+                <MenuItem value={10}>10ms</MenuItem>
+                <MenuItem value={50}>50ms</MenuItem>
+                <MenuItem value={100}>100ms</MenuItem>
+                <MenuItem value={500}>500ms</MenuItem>
                 <MenuItem value={1000}>1000s</MenuItem>
               </Select>
             </FormControl>

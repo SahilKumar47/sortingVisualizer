@@ -231,9 +231,23 @@ class SortingVisualizer extends Component {
   };
 
   doMergeSort = () => {
-    const { generatedArr } = this.state;
+    const { generatedArr, speed, color } = this.state;
     const animations = mergeSort(generatedArr);
     console.log(animations);
+    for (let i = 0; i < animations.length; i++) {
+      const { compare, value } = animations[i];
+      setTimeout(() => {
+        console.log("running");
+        const arrBar = document.getElementsByClassName("arrElement");
+        arrBar[compare[0]].style.backgroundColor = "red";
+        arrBar[compare[1]].style.backgroundColor = "green";
+        arrBar[value[0]].style.height = `${value[1]}px`;
+        setTimeout(() => {
+          arrBar[compare[0]].style.backgroundColor = color;
+          arrBar[compare[1]].style.backgroundColor = color;
+        }, speed);
+      }, i * speed);
+    }
   };
 
   render() {
