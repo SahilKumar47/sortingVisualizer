@@ -4,6 +4,7 @@ import {
   bubbleSort,
   insertionSort,
   selectionSort,
+  mergeSort,
 } from "./utils/sortingAlgorithm";
 
 //MUI stuff
@@ -229,6 +230,12 @@ class SortingVisualizer extends Component {
     }
   };
 
+  doMergeSort = () => {
+    const { generatedArr } = this.state;
+    const animations = mergeSort(generatedArr);
+    console.log(animations);
+  };
+
   render() {
     const { classes } = this.props;
     const {
@@ -258,6 +265,7 @@ class SortingVisualizer extends Component {
           doBubbleSort={this.doBubbleSort}
           doInsertionSort={this.doInsertionSort}
           doSelectionSort={this.doSelectionSort}
+          doMergeSort={this.doMergeSort}
           handleColorChange={this.handleColorChange}
         />
         <Paper

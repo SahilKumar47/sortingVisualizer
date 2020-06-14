@@ -77,6 +77,7 @@ export default function NavBar({
   doBubbleSort,
   doInsertionSort,
   doSelectionSort,
+  doMergeSort,
 }) {
   const classes = useStyles();
   const PrettoSlider = withStyles({
@@ -206,9 +207,13 @@ export default function NavBar({
           >
             Selection Sort
           </Button>
-          {/* <Button color="inherit" className={classes.button}>
-            Quick Sort
-          </Button> */}
+          <Button
+            color="inherit"
+            onClick={doMergeSort}
+            className={classes.button}
+          >
+            Merge Sort
+          </Button>
         </div>
       </Toolbar>
     </AppBar>
