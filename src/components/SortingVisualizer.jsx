@@ -116,6 +116,20 @@ class SortingVisualizer extends Component {
     return Math.floor(Math.random() * (max - min - 1) + min);
   };
 
+  confirmationAnimation = () => {
+    const { generatedArr, color } = this.state;
+    for (let i = 0; i < generatedArr.length; i++) {
+      setTimeout(() => {
+        const arrBar = document.getElementsByClassName("arrElement");
+        arrBar[i].style.backgroundColor = "#fa1616";
+      }, i * 10);
+      setTimeout(() => {
+        const arrBar = document.getElementsByClassName("arrElement");
+        arrBar[i].style.backgroundColor = color;
+      }, generatedArr.length * 10 + i * 10);
+    }
+  };
+
   doBubbleSort = () => {
     const { generatedArr, speed, color } = this.state;
     let ani = bubbleSort(generatedArr);
@@ -143,6 +157,7 @@ class SortingVisualizer extends Component {
     }
     setTimeout(() => {
       this.setState({ openSuccess: true });
+      this.confirmationAnimation();
     }, ani.length * speed);
   };
 
@@ -177,6 +192,7 @@ class SortingVisualizer extends Component {
     }
     setTimeout(() => {
       this.setState({ openSuccess: true });
+      this.confirmationAnimation();
     }, animations.length * speed);
   };
 
