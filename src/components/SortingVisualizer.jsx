@@ -21,9 +21,9 @@ function Alert(props) {
 
 const styles = {
   paper: {
-    marginTop: 10,
+    marginTop: window.innerWidth < 768 ? 20 : 10,
     width: "96%",
-    height: "86vh",
+    height: window.innerWidth < 1000 ? "65vh" : "86vh",
     marginRight: "2%",
     marginLeft: "2%",
     background: "",
@@ -34,7 +34,7 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-    margin: "0 auto",
+    margin: "0 auto"
   },
   snackBar: {
     width: "100%",
@@ -103,12 +103,12 @@ class SortingVisualizer extends Component {
     let width;
     const { size } = this.state;
     for (let i = 0; i < size; i++) {
-      generatedArr.push(this.randomArr(5, 600));
+      generatedArr.push(this.randomArr(5, window.innerWidth < 1000 ? 0.5 * window.innerHeight : 0.8 * window.innerHeight));
     }
-    if (size <= 20) width = 60;
-    else if (size > 20 && size <= 50) width = 23;
-    else if (size > 50 && size <= 100) width = 8;
-    else width = 3.5;
+    if (size <= 20) width = window.innerWidth < 784 ? '20px' : '70px';
+    else if (size > 20 && size <= 50) width = window.innerWidth < 784 ? '6px' : '14px';
+    else if (size > 50 && size <= 100) width = window.innerWidth < 784 ? '3px' : '7px';
+    else width = window.innerWidth < 784 ? '2px' : '3px';
     this.setState({ generatedArr, open: true, width });
   };
 
@@ -340,7 +340,7 @@ class SortingVisualizer extends Component {
                 component="div"
                 display="inline-block"
                 width={width}
-                marginX="3px"
+                marginX={window.innerWidth < 1200 ? window.innerWidth < 868 ? '0' : '1px' : "2px"}
                 key={index}
                 id="arrBox"
                 className="arrElement"
