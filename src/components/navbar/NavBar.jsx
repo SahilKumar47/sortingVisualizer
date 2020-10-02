@@ -19,7 +19,6 @@ import { Tooltip } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   appbar: {
-    flexGrow: 1,
     top: "auto",
     bottom: 0,
     background: "#726a95",
@@ -35,17 +34,15 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#0a97b0",
     },
   },
-  title: {
-    flexGrow: 1,
-  },
   button: {
     backgroundColor: "#0a97b0",
     marginRight: "7px",
-    borderRadius: 100,
+    borderRadius: window.innerWidth < 1000 ? 0 : 100,
     transition: "0.5s background-color ease",
     "&:hover": {
       backgroundColor: "#f54291",
     },
+    fontSize: window.innerWidth < 1000 ? '0.67rem' : 'inherit'
   },
   slider: {
     maxWidth: 150,
@@ -58,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   speedInput: {
     border: "none",
     color: "#fff",
-    width: 100,
+    width: "100%",
     height: 30,
     "&:hover": {
       border: "2px solid #f54291",
@@ -113,79 +110,78 @@ export default function NavBar({
   })(Slider);
   return (
     <AppBar position="fixed" className={classes.appbar}>
-      <Toolbar>
-        <Fab
-          edge="start"
-          variant="extended"
-          size="small"
-          aria-label="add"
-          className={classes.generate}
-          onClick={generateNewArr}
-        >
-          <AddOutlinedIcon className={classes.navIcon} />
-          Generate Array
-        </Fab>
-        <div className={classes.slider}>
-          <PrettoSlider
-            max={150}
-            min={10}
-            valueLabelDisplay="auto"
-            aria-labelledby="continuous-slider"
-            onChangeCommitted={handleSizeChange}
-            defaultValue={size}
-          />
-          <Typography variant="body2" color="#fff" className={classes.typo}>
-            Adjust Array Size
-          </Typography>
+      <div style={{ display: 'flex', padding: '1rem', flexDirection: window.innerWidth < 1000 ? 'column' : 'row' }}>
+        <div style={{ width: '100%', marginBottom: window.innerWidth < 1000 ? 10 : 0, display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+          <Fab
+            edge="start"
+            variant="extended"
+            size="small"
+            aria-label="add"
+            className={classes.generate}
+            onClick={generateNewArr}
+          >
+            <AddOutlinedIcon className={classes.navIcon} />
+            {window.innerWidth < 1000 ? '' : 'Generate Array'}
+          </Fab>
+          <div className={classes.slider}>
+            <PrettoSlider
+              max={150}
+              min={10}
+              valueLabelDisplay="auto"
+              aria-labelledby="continuous-slider"
+              onChangeCommitted={handleSizeChange}
+              defaultValue={size}
+            />
+            <Typography variant="body2" color="#fff" className={classes.typo}>
+              {window.innerWidth < 1000 ? 'Array Size' : 'Adjust Array Size'}
+            </Typography>
+          </div>
+          <div>
+            <Tooltip placement="top" title="Adjust per animation Sorting Speed">
+              <FormControl className={classes.speedMenu}>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={speed}
+                  onChange={handleSpeedChange}
+                  className={classes.speedInput}
+                  variant="outlined"
+                >
+                  <MenuItem value={0.5}>0.5ms</MenuItem>
+                  <MenuItem value={1}>1ms</MenuItem>
+                  <MenuItem value={5}>5ms</MenuItem>
+                  <MenuItem value={10}>10ms</MenuItem>
+                  <MenuItem value={50}>50ms</MenuItem>
+                  <MenuItem value={100}>100ms</MenuItem>
+                  <MenuItem value={500}>500ms</MenuItem>
+                  <MenuItem value={1000}>1000s</MenuItem>
+                </Select>
+              </FormControl>
+            </Tooltip>
+          </div>
+          <div>
+            <Tooltip placement="top" title="Change Bar Color">
+              <FormControl className={classes.speedMenu}>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={color}
+                  onChange={handleColorChange}
+                  className={classes.speedInput}
+                  variant="outlined"
+                >
+                  <MenuItem value="cyan">Cyan</MenuItem>
+                  <MenuItem value="#ffea00">Yellow</MenuItem>
+                  <MenuItem value="#d500f9">Pink</MenuItem>
+                  <MenuItem value="#2a3eb1">Indigo</MenuItem>
+                  <MenuItem value="#ff9100">Orange</MenuItem>
+                </Select>
+              </FormControl>
+            </Tooltip>
+          </div>
+          <Typography variant="h6" className={classes.title}></Typography>
         </div>
-
-        <div>
-          <Tooltip placement="top" title="Adjust per animation Sorting Speed">
-            <FormControl className={classes.speedMenu}>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={speed}
-                onChange={handleSpeedChange}
-                className={classes.speedInput}
-                variant="outlined"
-              >
-                <MenuItem value={0.5}>0.5ms</MenuItem>
-                <MenuItem value={1}>1ms</MenuItem>
-                <MenuItem value={5}>5ms</MenuItem>
-                <MenuItem value={10}>10ms</MenuItem>
-                <MenuItem value={50}>50ms</MenuItem>
-                <MenuItem value={100}>100ms</MenuItem>
-                <MenuItem value={500}>500ms</MenuItem>
-                <MenuItem value={1000}>1000s</MenuItem>
-              </Select>
-            </FormControl>
-          </Tooltip>
-        </div>
-
-        <div>
-          <Tooltip placement="top" title="Change Bar Color">
-            <FormControl className={classes.speedMenu}>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={color}
-                onChange={handleColorChange}
-                className={classes.speedInput}
-                variant="outlined"
-              >
-                <MenuItem value="cyan">Cyan</MenuItem>
-                <MenuItem value="#ffea00">Yellow</MenuItem>
-                <MenuItem value="#d500f9">Pink</MenuItem>
-                <MenuItem value="#2a3eb1">Indigo</MenuItem>
-                <MenuItem value="#ff9100">Orange</MenuItem>
-              </Select>
-            </FormControl>
-          </Tooltip>
-        </div>
-
-        <Typography variant="h6" className={classes.title}></Typography>
-        <div>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
           <Button
             color="inherit"
             onClick={doBubbleSort}
@@ -215,7 +211,7 @@ export default function NavBar({
             Merge Sort
           </Button>
         </div>
-      </Toolbar>
+      </div>
     </AppBar>
   );
 }
