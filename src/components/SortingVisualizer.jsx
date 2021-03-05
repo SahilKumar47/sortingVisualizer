@@ -19,6 +19,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+// styles for the component
 const styles = {
   paper: {
     marginTop: window.innerWidth < 768 ? 20 : 10,
@@ -98,6 +99,7 @@ class SortingVisualizer extends Component {
     this.setState({ theme: event.target.checked });
   };
 
+// generate a random array of the size specified on the UI
   generateNewArr = () => {
     const generatedArr = [];
     let width;
@@ -116,6 +118,7 @@ class SortingVisualizer extends Component {
     return Math.floor(Math.random() * (max - min - 1) + min);
   };
 
+// sorted array confirmation message
   confirmationAnimation = () => {
     const { generatedArr, color } = this.state;
     for (let i = 0; i < generatedArr.length; i++) {
@@ -130,12 +133,15 @@ class SortingVisualizer extends Component {
     }
   };
 
+// bubble sort handler
   doBubbleSort = () => {
     const { generatedArr, speed, color } = this.state;
+    // get the animations array
     let ani = bubbleSort(generatedArr);
     for (let i = 0; i < ani.length; i++) {
       const { swapIndex, values, swapped } = ani[i];
       setTimeout(() => {
+        // selection of all the bars in the dom 
         const arrBar = document.getElementsByClassName("arrElement");
 
         if (swapped) {
@@ -155,12 +161,14 @@ class SortingVisualizer extends Component {
         }, speed / 4);
       }, i * speed);
     }
+    // success animation
     setTimeout(() => {
       this.setState({ openSuccess: true });
       this.confirmationAnimation();
     }, ani.length * speed);
   };
 
+//insertion sort handler
   doInsertionSort = () => {
     const { generatedArr, speed, color } = this.state;
     const animations = insertionSort(generatedArr);
@@ -196,6 +204,7 @@ class SortingVisualizer extends Component {
     }, animations.length * speed);
   };
 
+// selection sort handler
   doSelectionSort = () => {
     const { generatedArr, speed, color } = this.state;
     const animations = selectionSort(generatedArr);
@@ -246,6 +255,7 @@ class SortingVisualizer extends Component {
     }
   };
 
+// merge sort handler
   doMergeSort = () => {
     const { generatedArr, speed, color } = this.state;
     const animations = mergeSort(generatedArr);
