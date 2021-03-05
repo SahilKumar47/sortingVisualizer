@@ -17,6 +17,8 @@ import Select from "@material-ui/core/Select";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import { Tooltip } from "@material-ui/core";
 
+
+// styling for the navbar
 const useStyles = makeStyles((theme) => ({
   appbar: {
     top: "auto",
@@ -77,6 +79,7 @@ export default function NavBar({
   doMergeSort,
 }) {
   const classes = useStyles();
+  // slider styling for the size change of the generated array
   const PrettoSlider = withStyles({
     root: {
       color: "#f54291",
