@@ -2,25 +2,32 @@
 
 export let bubbleSort = (arr) => {
   let len = arr.length;
+  // created an animations array for storing the sequence of value changes
   let animations = [];
   for (let i = 0; i < len; i++) {
     for (let j = 0; j < len - i - 1; j++) {
+      // created an animation object of a particualar moment
       let animation = {};
       if (arr[j] > arr[j + 1]) {
         let tmp = arr[j];
         arr[j] = arr[j + 1];
         arr[j + 1] = tmp;
+        // index of swapped values in the array
         animation.swapIndex = [j, j + 1];
+        // values of the indexes
         animation.values = [arr[j], arr[j + 1]];
+        // setting the swapped key to true for color change in the UI
         animation.swapped = true;
       } else {
         animation.swapIndex = [j, j + 1];
         animation.values = [arr[j], arr[j + 1]];
+        // settig the swapped key to false 
         animation.swapped = false;
       }
       animations.push(animation);
     }
   }
+  // returning the animations array 
   return animations;
 };
 
@@ -85,7 +92,9 @@ export const selectionSort = (arr) => {
 export function mergeSort(array) {
   const animations = [];
   if (array.length <= 1) return array;
+  // created an auxiliary array for storing the values as it is a recursion based algorithm
   const auxiliaryArray = array.slice();
+  // calling the merge helper function
   mergeSortHelper(array, 0, array.length - 1, auxiliaryArray, animations);
   return animations;
 }
@@ -98,9 +107,13 @@ function mergeSortHelper(
   animations
 ) {
   if (startIdx === endIdx) return;
+   // finding the mid point of the array 
   const middleIdx = Math.floor((startIdx + endIdx) / 2);
+   // calling function for the left side of the array 
   mergeSortHelper(auxiliaryArray, startIdx, middleIdx, mainArray, animations);
+   // calling function for the right side of the array
   mergeSortHelper(auxiliaryArray, middleIdx + 1, endIdx, mainArray, animations);
+   // merging both the right and left side
   doMerge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, animations);
 }
 
